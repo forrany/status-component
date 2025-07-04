@@ -1,0 +1,18 @@
+{
+  "name": "status-component-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Monorepo for Status Component Library and its playgrounds.",
+  "scripts": {
+    "dev:vue3": "pnpm --filter vue3-playground dev",
+    "dev:vue2": "pnpm --filter vue2-playground dev",
+    "build": "pnpm --filter=\"./packages/status-component-vue*\" build",
+    "clean": "pnpm --filter=\"./packages/status-component-*\" --parallel exec \"rm -rf dist\"",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-plugin-vue": "^9.9.0"
+  },
+  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
+}

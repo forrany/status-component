@@ -1,0 +1,28 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Vite/Build output
+dist/
+.vite/
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Playgrounds specific outputs
+playground/vue2/dist/
+playground/vue3/dist/
+
+# Optional: If you use a package manager specific cache
+.npm/
+.yarn/

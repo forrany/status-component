@@ -1,0 +1,32 @@
+{
+  "name": "status-component-vue3",
+  "version": "1.0.0",
+  "main": "dist/status-component-vue3.umd.js",
+  "module": "dist/status-component-vue3.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/status-component-vue3.mjs",
+      "require": "./dist/status-component-vue3.umd.js",
+      "development": "./src/index.js"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "status-component-core": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "vite": "^5.3.1",
+    "vue": "^3.0.0"
+  },
+  "license": "MIT"
+}
