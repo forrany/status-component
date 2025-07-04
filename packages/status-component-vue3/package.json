@@ -1,6 +1,8 @@
 {
   "name": "status-component-vue3",
   "version": "1.0.0",
+  "author": "Vincent Ko",
+  "description": "A Vue 3 component for displaying status indicators.",
   "main": "dist/status-component-vue3.umd.js",
   "module": "dist/status-component-vue3.mjs",
   "exports": {
