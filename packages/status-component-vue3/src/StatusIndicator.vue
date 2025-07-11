@@ -57,7 +57,7 @@ const statusInfo = computed(() => getStatusInfo.value(props.status));
 .status-indicator {
   display: inline-flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .status-icon {
