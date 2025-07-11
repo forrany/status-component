@@ -1,0 +1,15 @@
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+
+# Temporary core files (copied during build)
+src/core/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db

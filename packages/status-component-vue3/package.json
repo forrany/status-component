@@ -1,6 +1,6 @@
 {
   "name": "status-component-vue3",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "author": "Vincent Ko",
   "description": "A Vue 3 component for displaying status indicators.",
   "main": "dist/status-component-vue3.umd.js",
@@ -17,10 +17,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build"
-  },
-  "dependencies": {
-    "status-component-core": "workspace:*"
+    "build": "npm run copy-core && vite build",
+    "copy-core": "mkdir -p src/core && cp -r ../status-component-core/src/* src/core/",
+    "clean-core": "rm -rf src/core",
+    "prebuild": "npm run copy-core",
+    "prepublishOnly": "npm run build && cp ../../README.md .",
+    "postpublish": "npm run clean-core"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

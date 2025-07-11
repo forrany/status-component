@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Component I18n Test</title>
+    <script src="https://unpkg.com/vue@2.7.0/dist/vue.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .controls { margin: 10px 0; }
+        button { margin: 5px; padding: 8px 15px; cursor: pointer; }
+        .status-row { margin: 10px 0; }
+        .current-lang { font-weight: bold; color: #1890ff; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Status Component 国际化测试</h1>
+        
+        <div class="test-section">
+            <h3>当前语言设置</h3>
+            <p class="current-lang">{{ currentLanguage }}</p>
+            <div class="controls">
+                <button @click="setChinese">设置中文 (zh-cn)</button>
+                <button @click="setEnglish">设置英文 (en)</button>
+                <button @click="clearCookie">清除 Cookie</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>自动语言检测（从 Cookie）</h3>
+            <div class="status-row" v-for="status in testStatuses" :key="status">
+                <strong>{{ status }}:</strong> 
+                <status-indicator :status="status"></status-indicator>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>强制指定语言</h3>
+            <h4>强制中文:</h4>
+            <div class="status-row" v-for="status in testStatuses" :key="'zh-' + status">
+                <strong>{{ status }}:</strong> 
+                <status-indicator :status="status" language="zh-cn"></status-indicator>
+            </div>
+            
+            <h4>强制英文:</h4>
+            <div class="status-row" v-for="status in testStatuses" :key="'en-' + status">
+                <strong>{{ status }}:</strong> 
+                <status-indicator :status="status" language="en"></status-indicator>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>自定义配置 + 国际化</h3>
+            <div class="status-row">
+                <strong>warning (自定义颜色):</strong> 
+                <status-indicator 
+                    status="warning" 
+                    :custom-config="{ warning: { color: '#ff6600' } }"
+                ></status-indicator>
+            </div>
+            <div class="status-row">
+                <strong>success (自定义文本):</strong> 
+                <status-indicator 
+                    status="success" 
+                    :custom-config="{ success: { text: '自定义成功文本' } }"
+                ></status-indicator>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用构建后的组件 -->
+    <script src="./packages/status-component-vue2/dist/status-component-vue2.umd.js"></script>
+    <link rel="stylesheet" href="./packages/status-component-vue2/dist/style.css">
+
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                'status-indicator': StatusComponentVue2
+            },
+            data: {
+                testStatuses: [
+                    'running', 'success', 'available', 'stopped', 'disabled',
+                    'failed', 'error', 'warning', 'deploying', 'processing', 'pending'
+                ],
+                currentLanguage: 'zh-cn'
+            },
+            mounted() {
+                this.updateCurrentLanguage();
+            },
+            methods: {
+                setChinese() {
+                    document.cookie = 'blueking_language=zh-cn';
+                    this.updateCurrentLanguage();
+                    this.$forceUpdate();
+                },
+                setEnglish() {
+                    document.cookie = 'blueking_language=en';
+                    this.updateCurrentLanguage();
+                    this.$forceUpdate();
+                },
+                clearCookie() {
+                    document.cookie = 'blueking_language=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                    this.updateCurrentLanguage();
+                    this.$forceUpdate();
+                },
+                updateCurrentLanguage() {
+                    const cookies = document.cookie.split(';');
+                    for (let cookie of cookies) {
+                        const [name, value] = cookie.trim().split('=');
+                        if (name === 'blueking_language') {
+                            this.currentLanguage = decodeURIComponent(value);
+                            return;
+                        }
+                    }
+                    this.currentLanguage = 'zh-cn (默认)';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

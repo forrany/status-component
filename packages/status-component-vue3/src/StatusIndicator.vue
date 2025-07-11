@@ -24,7 +24,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { createStatusMapper } from 'status-component-core';
+import { createStatusMapper } from './core/index.js';
 
 const props = defineProps({
   // 后端返回的状态值
@@ -37,11 +37,17 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  // 语言设置，不传则从 cookie 获取
+  language: {
+    type: String,
+    default: '',
+    validator: (value) => value === '' || ['zh-cn', 'zh', 'en', 'en-us'].includes(value.toLowerCase())
+  },
 });
 
 // 创建一个响应式的映射器
-// 它只会在 customConfig 变化时重新创建
-const getStatusInfo = computed(() => createStatusMapper(props.customConfig));
+// 它只会在 customConfig 或 language 变化时重新创建
+const getStatusInfo = computed(() => createStatusMapper(props.customConfig, props.language || undefined));
 
 // 根据 status prop 获取最终的展示信息
 const statusInfo = computed(() => getStatusInfo.value(props.status));

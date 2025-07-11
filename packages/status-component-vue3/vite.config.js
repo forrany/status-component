@@ -17,5 +17,9 @@ export default defineConfig({
         },
       },
     },
+    // 确保所有依赖都被内联，不依赖外部模块
+    commonjsOptions: {
+      include: [/src/, /core/]
+    }
   },
 });

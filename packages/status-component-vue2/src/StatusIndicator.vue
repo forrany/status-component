@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { createStatusMapper } from 'status-component-core';
+import { createStatusMapper } from './core/index.js';
 
 export default {
   name: 'StatusIndicator',
@@ -37,11 +37,18 @@ export default {
         return {};
       },
     },
+    language: {
+      type: String,
+      default: '',
+      validator: function(value) {
+        return value === '' || ['zh-cn', 'zh', 'en', 'en-us'].includes(value.toLowerCase());
+      }
+    },
   },
   computed: {
     // Vue 2 中，我们可以将 mapper 的创建和使用合并在一个 computed 属性里
     statusInfo() {
-      const getStatusInfo = createStatusMapper(this.customConfig);
+      const getStatusInfo = createStatusMapper(this.customConfig, this.language || undefined);
       return getStatusInfo(this.status);
     },
   },

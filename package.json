@@ -7,8 +7,19 @@
     "dev:vue3": "pnpm --filter vue3-playground dev",
     "dev:vue2": "pnpm --filter vue2-playground dev",
     "build": "pnpm --filter=\"./packages/status-component-vue*\" build",
-    "clean": "pnpm --filter=\"./packages/status-component-*\" --parallel exec \"rm -rf dist\"",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "build:vue2": "pnpm --filter status-component-vue2 build",
+    "build:vue3": "pnpm --filter status-component-vue3 build",
+    "clean": "pnpm --filter status-component-vue2 run clean-core && pnpm --filter status-component-vue3 run clean-core",
+    "test:build": "pnpm run build && echo 'Build test completed successfully'",
+    "test:pack": "cd packages/status-component-vue2 && npm pack --dry-run && cd ../status-component-vue3 && npm pack --dry-run",
+    "version:patch": "cd packages/status-component-vue2 && npm version patch && cd ../status-component-vue3 && npm version patch",
+    "version:minor": "cd packages/status-component-vue2 && npm version minor && cd ../status-component-vue3 && npm version minor",
+    "version:major": "cd packages/status-component-vue2 && npm version major && cd ../status-component-vue3 && npm version major",
+    "release": "cd packages/status-component-vue2 && npm publish && cd ../status-component-vue3 && npm publish",
+    "release:dry": "cd packages/status-component-vue2 && npm publish --dry-run && cd ../status-component-vue3 && npm publish --dry-run",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "install:all": "pnpm install",
+    "update:deps": "pnpm update --recursive"
   },
   "devDependencies": {
     "eslint": "^8.34.0",

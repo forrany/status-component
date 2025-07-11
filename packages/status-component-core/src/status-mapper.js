@@ -1,3 +1,5 @@
+import { getLocalizedText } from './i18n.js';
+
 /**
  * @typedef {Object} StatusInfo
  * @property {string} text - The display text for the status.
@@ -10,25 +12,23 @@
 /**
  * 默认的状态映射配置
  * Key 可以是后端返回的任何字符串
+ * text 字段将通过国际化函数动态获取
  */
 const defaultConfig = {
   // 成功/运行状态 - 绿色系
   running: {
-    text: '运行中',
     color: '#3FC06D',
     iconType: 'dot',
     backgroundColor: '#E5F6EA',
     borderColor: '#3FC06D'
   },
   success: {
-    text: '成功',
     color: '#3FC06D',
     iconType: 'dot',
     backgroundColor: '#E5F6EA',
     borderColor: '#3FC06D'
   },
   available: {
-    text: '可用',
     color: '#3FC06D',
     iconType: 'dot',
     backgroundColor: '#E5F6EA',
@@ -37,14 +37,12 @@ const defaultConfig = {
 
   // 停用/失败状态 - 灰色系
   stopped: {
-    text: '已停用',
     color: '#C4C6CC',
     iconType: 'dot',
     backgroundColor: '#F0F1F5',
     borderColor: '#C4C6CC'
   },
   disabled: {
-    text: '已禁用',
     color: '#C4C6CC',
     iconType: 'dot',
     backgroundColor: '#F0F1F5',
@@ -53,14 +51,12 @@ const defaultConfig = {
 
   // 失败/错误状态 - 红色系
   failed: {
-    text: '失败',
     color: '#F5222D',
     iconType: 'dot',
     backgroundColor: '#FFEBEE',
     borderColor: '#F5222D'
   },
   error: {
-    text: '异常',
     color: '#F5222D',
     iconType: 'dot',
     backgroundColor: '#FFEBEE',
@@ -69,7 +65,6 @@ const defaultConfig = {
 
   // 警告状态 - 橙色系
   warning: {
-    text: '告警',
     color: '#F59500',
     iconType: 'dot',
     backgroundColor: '#FCE5C0',
@@ -77,13 +72,12 @@ const defaultConfig = {
   },
 
   // 加载/处理中状态 - 蓝色系，使用 spinner
-  deploying: { text: '部署中', color: '#1890ff', iconType: 'spinner' },
-  processing: { text: '处理中', color: '#1890ff', iconType: 'spinner' },
-  pending: { text: '等待中', color: '#faad14', iconType: 'spinner' },
+  deploying: { color: '#1890ff', iconType: 'spinner' },
+  processing: { color: '#1890ff', iconType: 'spinner' },
+  pending: { color: '#faad14', iconType: 'spinner' },
 
   // 未知或未匹配状态的默认值
   __default__: {
-    text: '未知',
     color: '#C4C6CC',
     iconType: 'dot',
     backgroundColor: '#F0F1F5',
@@ -94,9 +88,10 @@ const defaultConfig = {
 /**
  * 创建一个状态映射器实例。
  * @param {Object.<string, Partial<StatusInfo>>} [customConfig] - 用户自定义的配置，会与默认配置合并。
+ * @param {string} [language] - 指定语言，不传则从 cookie 获取
  * @returns {(status: string) => StatusInfo} - 返回一个函数，该函数接收一个状态字符串，返回对应的状态信息。
  */
-export function createStatusMapper(customConfig) {
+export function createStatusMapper(customConfig, language) {
   // 深合并配置，用户自定义的优先级更高
   const finalConfig = { ...defaultConfig };
   if (customConfig) {
@@ -115,8 +110,8 @@ export function createStatusMapper(customConfig) {
     const info = finalConfig[status];
     if (info) {
       return {
-        // 确保所有属性都有默认值，防止渲染出错
-        text: info.text || 'N/A',
+        // 优先使用用户自定义的 text，否则使用国际化文本
+        text: info.text || getLocalizedText(status, language),
         color: info.color || defaultConfig.__default__.color,
         iconType: info.iconType || 'none',
         backgroundColor: info.backgroundColor,
@@ -125,7 +120,11 @@ export function createStatusMapper(customConfig) {
     }
 
     // 如果找不到完全匹配的，返回默认的未知状态
-    // 同时，将 text 设置为传入的 status，方便调试
-    return { ...defaultConfig.__default__, text: status };
+    // 使用国际化的默认文本，如果没有则使用传入的 status
+    const defaultText = getLocalizedText('__default__', language);
+    return {
+      ...defaultConfig.__default__,
+      text: defaultText !== '__default__' ? defaultText : status
+    };
   };
 }
