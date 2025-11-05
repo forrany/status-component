@@ -1,12 +1,14 @@
 {
   "name": "status-component-vue2",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Vincent Ko",
   "description": "Vue 2 component for displaying status indicators",
   "main": "dist/status-component-vue2.umd.js",
   "module": "dist/status-component-vue2.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/status-component-vue2.mjs",
       "require": "./dist/status-component-vue2.umd.js",
       "development": "./src/index.js"
@@ -17,8 +19,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run copy-core && vite build",
+    "build": "npm run copy-core && vite build && npm run copy-types",
     "copy-core": "mkdir -p src/core && cp -r ../status-component-core/src/* src/core/",
+    "copy-types": "cp src/index.d.ts dist/index.d.ts",
     "clean-core": "rm -rf src/core",
     "prebuild": "npm run copy-core",
     "prepublishOnly": "npm run build && cp ../../README.md .",

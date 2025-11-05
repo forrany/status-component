@@ -23,6 +23,8 @@
 - 📦 **丰富的默认配置**: 已预设一组常用状态，如 `running`, `failed`, `warning`, `deploying` 等。
 - ⚙️ **多种图标类型**: 开箱即用，支持 `dot` (圆点) 和 `spinner` (加载中) 图标，或不显示图标。
 - 🏗️ **现代化工具链**: 使用 Vite 构建，并通过 pnpm workspace 进行 Monorepo 管理。
+- 💪 **完整的 TypeScript 支持**: 内置类型定义，提供完整的类型提示和检查。
+- 🌍 **国际化支持**: 内置中英文语言包，支持自动检测和手动切换语言。
 
 ## 安装
 
@@ -44,6 +46,8 @@ pnpm install status-component-vue2
 
 ### Vue 3 (`<script setup>`)
 
+**TypeScript 支持：** 组件已包含完整的类型定义，TypeScript 项目可直接使用，无需额外配置。
+
 ```vue
 <template>
   <!-- 基础用法 -->
@@ -56,9 +60,29 @@ pnpm install status-component-vue2
 <script setup>
 import StatusIndicator from 'status-component-vue3';
 // 不要忘记引入样式文件！
-import 'status-component-vue3/dist/style.css';
+import 'status-component-vue3/style.css';
 
 const myConfig = {
+  ONLINE: { text: '服务在线', color: 'deepskyblue', iconType: 'dot' },
+  OFFLINE: { text: '已离线', color: '#666' },
+  UPDATING: { text: '更新中...', color: 'orange', iconType: 'spinner' },
+};
+</script>
+```
+
+### Vue 3 with TypeScript
+
+```vue
+<template>
+  <StatusIndicator status="running" :custom-config="myConfig" />
+</template>
+
+<script setup lang="ts">
+import StatusIndicator from 'status-component-vue3';
+import type { StatusConfig } from 'status-component-vue3';
+import 'status-component-vue3/style.css';
+
+const myConfig: Record<string, StatusConfig> = {
   ONLINE: { text: '服务在线', color: 'deepskyblue', iconType: 'dot' },
   OFFLINE: { text: '已离线', color: '#666' },
   UPDATING: { text: '更新中...', color: 'orange', iconType: 'spinner' },
@@ -82,7 +106,7 @@ const myConfig = {
 <script>
 import StatusIndicator from 'status-component-vue2';
 // 不要忘记引入样式文件！
-import 'status-component-vue2/dist/style.css';
+import 'status-component-vue2/style.css';
 
 export default {
   components: {
