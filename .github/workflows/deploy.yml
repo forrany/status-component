@@ -29,6 +29,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Build Vue 3 Component
+        run: |
+          cd packages/status-component-vue3
+          pnpm run build
+
+      - name: Build Vue 2 Component
+        run: |
+          cd packages/status-component-vue2
+          pnpm run build
+
       - name: Build Vue 3 Playground
         run: |
           cd packages/vue3-playground
@@ -55,4 +65,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-
