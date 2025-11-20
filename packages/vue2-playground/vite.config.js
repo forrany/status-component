@@ -7,7 +7,7 @@ export default defineConfig({
     vue2()
   ],
   root: resolve(__dirname, './'), // Set root to the playground directory
-  base: './',
+  base: process.env.NODE_ENV === 'production' ? '/status-component/vue2/' : './',
   resolve: {
     alias: {
       // Alias for the component source so playground can import it directly
