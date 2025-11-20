@@ -6,6 +6,11 @@
 
 本项目是一个 pnpm monorepo，其结构经过精心设计，将核心逻辑、Vue 2 和 Vue 3 组件分包维护，确保了清晰的关注点分离和便捷的项目集成。
 
+## 在线演示
+
+- [Vue 3 Playground](https://vincentko.github.io/status-component/)
+- [Vue 2 Playground](https://vincentko.github.io/status-component/vue2/)
+
 ## Monorepo 包结构
 
 | 包名                      | 描述                                                                 |
@@ -212,12 +217,16 @@ const myConfig = {
 
     你可以运行 Vue 2 或 Vue 3 的演练场来实时测试组件。
 
+    **Vue 3 Playground**
     ```bash
-    # 运行 Vue 3 演练场
-    pnpm dev:vue3
+    cd packages/vue3-playground
+    pnpm dev
+    ```
 
-    # 运行 Vue 2 演练场
-    pnpm dev:vue2
+    **Vue 2 Playground**
+    ```bash
+    cd packages/vue2-playground
+    pnpm dev
     ```
 
 4.  **可用脚本:**
